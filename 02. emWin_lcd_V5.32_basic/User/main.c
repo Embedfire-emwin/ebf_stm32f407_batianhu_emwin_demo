@@ -35,6 +35,7 @@ int main ( void )
 	int i=0;
 
   LED_GPIO_Config();
+	LED_GREEN;
 	
   /* 初始化定时器 */
 	SysTick_Init();
@@ -47,10 +48,10 @@ int main ( void )
 
 	Debug_USART_Config();		
 	
-	printf("\r\n ********** 液晶屏英文显示程序*********** \r\n"); 
-	printf("\r\n 本程序不支持中文，显示中文的程序请学习下一章 \r\n"); 
+	printf("\r\n **********  emwin基础显示例程*********** \r\n"); 
+	printf("\r\n 本程序不支持中文 \r\n"); 
 
-	    
+	 GUI_SetColor(GUI_WHITE);   
 	/* 显示测试 */
 	GUI_DispStringAt("wildfire F407 emWin test!",10,10);
 	GUI_Delay(100);
