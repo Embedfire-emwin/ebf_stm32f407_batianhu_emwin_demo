@@ -82,7 +82,7 @@ Purpose     : Configures emWins abilities, fonts etc.
 *
 *       Default font
 */
-#define GUI_DEFAULT_FONT          &GUI_Font8x16x2x2
+#define GUI_DEFAULT_FONT          &GUI_Font6x8
 
 /*********************************************************************
 *
