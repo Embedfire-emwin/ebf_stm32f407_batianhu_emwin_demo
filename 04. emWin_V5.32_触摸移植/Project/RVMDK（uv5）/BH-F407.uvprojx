@@ -947,11 +947,6 @@
               <FileType>1</FileType>
               <FilePath>..\..\User\touch\gt5xx.c</FilePath>
             </File>
-            <File>
-              <FileName>WinDLG.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\WinDLG.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>

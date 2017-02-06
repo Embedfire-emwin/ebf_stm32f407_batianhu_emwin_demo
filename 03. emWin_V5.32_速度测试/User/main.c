@@ -22,7 +22,8 @@
 #include "./lcd/bsp_ili9806g_lcd.h"
 #include "./systick/bsp_SysTick.h"
 
-extern void SpeedTest(void);
+#include "GUIDEMO.h"
+
 
 /**
   * @brief  主函数
@@ -55,12 +56,8 @@ int main ( void )
 
 	//移植本程序时，注意要把启动文件中的栈空间设置大一点
 
-	while(1)
-	{
-		//执行速度测试Demo
-		SpeedTest();
-		GUI_Delay(3000);
-	}
+	//emwin官方demo，修改guidemo.h文件中的宏可增加演示应用
+	GUIDEMO_Main();
 }
 
 

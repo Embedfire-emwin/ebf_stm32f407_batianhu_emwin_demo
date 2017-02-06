@@ -369,7 +369,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F40_41xxx,</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\Libraries\CMSIS\Include;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\User;..\..\STemWinLibrary532\inc;..\..\STemWinLibrary532\Config</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\Libraries\CMSIS\Include;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\User;..\..\STemWinLibrary532\inc;..\..\STemWinLibrary532\Config;..\..\Demo</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -773,9 +773,129 @@
           <GroupName>Appli/Demo</GroupName>
           <Files>
             <File>
-              <FileName>speedtest.c</FileName>
+              <FileName>GUIDEMO.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\speedtest.c</FilePath>
+              <FilePath>..\..\Demo\GUIDEMO.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_AntialiasedText.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_AntialiasedText.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_Automotive.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_Automotive.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_BarGraph.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_BarGraph.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_Bitmap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_Bitmap.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_ColorBar.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_ColorBar.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_Conf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_Conf.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_Cursor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_Cursor.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_Fading.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_Fading.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_Graph.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_Graph.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_IconView.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_IconView.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_ImageFlow.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_ImageFlow.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_Intro.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_Intro.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_Listview.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_Listview.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_RadialMenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_RadialMenu.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_Resource.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_Resource.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_Skinning.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_Skinning.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_Speed.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_Speed.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_Speedometer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_Speedometer.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_Start.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_Start.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_TransparentDialog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_TransparentDialog.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_Treeview.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_Treeview.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_VScreen.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_VScreen.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_WashingMachine.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_WashingMachine.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDEMO_ZoomAndRotate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Demo\GUIDEMO_ZoomAndRotate.c</FilePath>
             </File>
           </Files>
         </Group>

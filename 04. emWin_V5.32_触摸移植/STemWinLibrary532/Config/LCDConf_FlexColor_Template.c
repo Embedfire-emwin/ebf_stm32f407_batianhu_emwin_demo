@@ -188,13 +188,16 @@ void LCD_X_Config(void) {
   //
   Config.FirstCOM = 0;                                          //modify by fire
   Config.FirstSEG = 0;                                          //modify by fire  
-	Config.Orientation = GUI_MIRROR_Y|GUI_MIRROR_X;								//modify by fire 竖屏
-//	调整扫描方向，主要是为了使触摸输出的坐标对应
-	ILI9806G_GramScan(6);
 	
+	//竖屏
+	Config.Orientation = GUI_MIRROR_Y|GUI_MIRROR_X;								//modify by fire 竖屏
+	//	调整扫描方向，主要是为了使触摸输出的坐标对应
+	LCD_SCAN_MODE = 6;
+	
+	//横屏
 //	Config.Orientation = GUI_SWAP_XY | GUI_MIRROR_Y;					    //modify by fire  横屏
-////	调整扫描方向，主要是为了使触摸输出的坐标对应	
-//	ILI9806G_GramScan(5);
+//  //	调整扫描方向，主要是为了使触摸输出的坐标对应	
+//	LCD_SCAN_MODE = 5;
 
   Config.NumDummyReads = 2;                                     //modify by fire 读取的第二个数据才是真实数据
 

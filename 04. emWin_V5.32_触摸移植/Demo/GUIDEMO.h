@@ -148,7 +148,7 @@ extern "C" {     /* Make sure we have C-declarations in C++ programs */
 #endif
 
 #ifndef   SHOW_GUIDEMO_SPEED
-  #define SHOW_GUIDEMO_SPEED             (0)
+  #define SHOW_GUIDEMO_SPEED             (1)
 #endif
 
 #ifndef   SHOW_GUIDEMO_TREEVIEW
