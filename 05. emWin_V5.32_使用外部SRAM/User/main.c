@@ -4,7 +4,7 @@
   * @author  fire
   * @version V1.0
   * @date    2015-xx-xx
-  * @brief   emwin触摸测试程序
+  * @brief   emwin使用外部SRAM
   ******************************************************************************
   * @attention
   *
@@ -55,7 +55,7 @@ int main ( void )
 	/* 初始化定时器 */
 	SysTick_Init();
 
-	printf("\r\n ********** emwin触摸测试程序*********** \r\n"); 
+	printf("\r\n ********** emwin使用外部SRAM作内存空间*********** \r\n"); 
 	
 	//emwin官方demo，修改guidemo.h文件中的宏可增加演示应用
 	GUIDEMO_Main();
