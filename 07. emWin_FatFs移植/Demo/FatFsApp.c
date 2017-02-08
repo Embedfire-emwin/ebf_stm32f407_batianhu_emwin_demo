@@ -29,7 +29,7 @@ BYTE textFileBuffer[] = "Welcome to use Wildfire F407 stm32 Development Board,\
 this is a demo about enWin && Flash FatFS.\n\
 today is a good day";
 
-//要测试的磁盘号，0为spi，1为sd卡
+//要测试的磁盘号，0为sd卡，1为spi
 char disk_num[] = "1:";
 
 

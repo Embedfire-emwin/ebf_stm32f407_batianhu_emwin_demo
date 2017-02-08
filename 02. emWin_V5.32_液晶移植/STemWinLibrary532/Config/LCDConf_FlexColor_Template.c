@@ -53,7 +53,7 @@ Purpose     : Display controller configuration (single layer)
 
 #include "GUI.h"
 #include "GUIDRV_FlexColor.h"
-#include "../User/lcd/bsp_ili9806g_lcd.h"
+#include "./lcd/bsp_ili9806g_lcd.h"
 
 /*********************************************************************
 *
@@ -145,7 +145,7 @@ static void LcdWriteDataMultiple(U16 * pData, int NumItems) {
 *   Reads multiple values from a display register.
 */
 static void LcdReadDataMultiple(U16 * pData, int NumItems) {
-  //ili9341读取的第一个数据为无效数据，舍弃(原来没有使用config.numdummyreads参数的时候需要这个语句)
+  //ili9806读取的第一个数据为无效数据，舍弃(原来没有使用config.numdummyreads参数的时候需要这个语句)
 	//*pData = ( * ( __IO uint16_t * ) ( FSMC_Addr_ILI9806G_DATA ) );					
   while (NumItems--) {
     // ... TBD by user
