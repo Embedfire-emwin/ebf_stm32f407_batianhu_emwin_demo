@@ -838,6 +838,11 @@
           <GroupName>STemWin_V532</GroupName>
           <Files>
             <File>
+              <FileName>STemWin532_CM4_Keil.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\STemWinLibrary532\Lib\STemWin532_CM4_Keil.lib</FilePath>
+            </File>
+            <File>
               <FileName>GUIConf.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\STemWinLibrary532\Config\GUIConf.c</FilePath>
@@ -853,14 +858,9 @@
               <FilePath>..\..\STemWinLibrary532\OS\GUI_X.c</FilePath>
             </File>
             <File>
-              <FileName>Font_XBF_Port.c</FileName>
+              <FileName>GUIFont_Port.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\STemWinLibrary532\Config\Font_XBF_Port.c</FilePath>
-            </File>
-            <File>
-              <FileName>STemWin532_CM4_Keil.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\STemWinLibrary532\Lib\STemWin532_CM4_Keil.lib</FilePath>
+              <FilePath>..\..\STemWinLibrary532\Config\GUIFont_Port.c</FilePath>
             </File>
           </Files>
         </Group>

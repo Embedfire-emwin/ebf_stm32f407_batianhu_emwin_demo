@@ -11,7 +11,7 @@
 【 ！】功能简介：
 增加XBF字库文件支持，使得可以显示中文，支持中英文混合
 
--对XBF字库支持的实现主要集中在 Font_XBF_Port.c文件，
+-对XBF字库支持的实现主要集中在 GUIFont_Port.c文件，
  该文件支持SPI FLASH、SD卡文件系统、FLASH文件系统等位置获取字库，
  默认使用SPI FLASH非文件系统部分存储字库
 
