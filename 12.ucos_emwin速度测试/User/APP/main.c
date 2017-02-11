@@ -4,7 +4,7 @@
   * @author  fire
   * @version V1.0
   * @date    2015-xx-xx
-  * @brief   emwin + ucosIII 基础显示例程
+  * @brief   emwin + ucosIII 速度测试
   ******************************************************************************
   * @attention
   *
