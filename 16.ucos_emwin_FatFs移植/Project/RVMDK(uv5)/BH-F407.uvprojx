@@ -1112,6 +1112,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\User\FATFS\option\cc936.c</FilePath>
             </File>
+            <File>
+              <FileName>syscall.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\FATFS\option\syscall.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
