@@ -44,7 +44,7 @@ extern void drawgif(void);
   */
 int main ( void )
 {
-	static uint8_t show_pic_flag = 2;
+	static uint8_t show_pic_flag = 3;
 	
 	GUI_RECT info_text ={0,100,480,200};
 

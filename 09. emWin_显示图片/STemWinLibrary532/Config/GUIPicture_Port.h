@@ -4,11 +4,9 @@
 #include "stm32f4xx.h"
 #include "GUI.h"
 
-//选择使用emwin的内存空间（动态分配）还是静态空间（定义成全局变量）
-#define USE_MEM 			EMWIN_MEM
+/* 实际的测试需要是图像宽度的4倍即可，切记(也就是保证每个像素如果是32位数据的情况) */
+#define PIC_BUFFRE_SIZE  (800*4)
 
-#define EMWIN_MEM 	 0	//emwin的内存空间
-#define STATIC_MEM	 1	//静态的空间
 
 void _ShowBMPEx(const char * sFilename, uint16_t usPOSX, uint16_t usPOSY) ;
 void _ShowJPEGEx(const char * sFilename, uint16_t usPOSX, uint16_t usPOSY) ; 

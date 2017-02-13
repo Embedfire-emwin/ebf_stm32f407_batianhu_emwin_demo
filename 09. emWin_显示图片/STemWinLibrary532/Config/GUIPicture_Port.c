@@ -19,20 +19,13 @@
 #include "GUIPicture_Port.h"   
 #include "ff.h"
 
-//文件句柄
-static FIL     file;													
-static	FRESULT result;  
+//传给getData函数的指针
+typedef struct
+{
+	FIL *file;
+	uint8_t *_acBuffer;
+}IN_DATA;
 
-/* 实际的测试需要是图像宽度的4倍即可，切记(也就是保证每个像素如果是32位数据的情况) */
-#define PIC_BUFFRE_SIZE  (800*4)
-
-#if (USE_MEM == EMWIN_MEM)
-	static uint8_t* _acBuffer;
-
-#elif (USE_MEM == STATIC_MEM)
-	static uint8_t _acBuffer[PIC_BUFFRE_SIZE];
-	
-#endif
 
  /**
   * @brief  BMP/GIF/JPEG获取外部图片文件数据的回调函数，作为GUI_xx_DrawEx的回调函数
@@ -45,10 +38,13 @@ static	FRESULT result;
 static int _GetData_BMP_GIF_JPEG(void * p, const U8 ** ppData, unsigned NumBytesReq, U32 Off) 
 {
 
-	static int FileAddress = 0;
+	int FileAddress = 0;
 	UINT NumBytesRead;
-	FIL *PicFile;
-	PicFile = (FIL *)p;
+	IN_DATA *in_data;
+	FRESULT result;  
+
+	
+	in_data = (IN_DATA *)p;
 	
 	/*
 	* 检查Buffer大小
@@ -66,18 +62,22 @@ static int _GetData_BMP_GIF_JPEG(void * p, const U8 ** ppData, unsigned NumBytes
 		FileAddress = Off;
 	
 	//对文件进行定位
-	result =f_lseek(PicFile, FileAddress);
+	result =f_lseek(in_data->file, FileAddress);
+	if (result != FR_OK)
+	{
+		return 0;
+	}
 
 //printf("lseek:result->(%d) off->(%ld) address->(%d)\n",result,Off,FileAddress);
 	/*
 	* 读取数据到Buffer
 	*/
-	result = f_read(PicFile, _acBuffer, NumBytesReq, &NumBytesRead);
+	result = f_read(in_data->file, in_data->_acBuffer, NumBytesReq, &NumBytesRead);
 //printf("read:result->(%d) numreq->(%d),numread->(%d)\n",result,NumBytesReq,NumBytesRead);
 	/*
 	* 设置指针指向缓冲区
 	*/
-	*ppData = (const U8 *)_acBuffer;
+	*ppData = (const U8 *)in_data->_acBuffer;
 
 	/*
 	* 返回读取到的有效字节数
@@ -96,11 +96,12 @@ static int _GetData_BMP_GIF_JPEG(void * p, const U8 ** ppData, unsigned NumBytes
   */
 static int _GetData_PNG_BITMAPS(void * p, const U8 **ppData, unsigned int NumBytesReq, U32 Off) {
 	
-	static int FileAddress = 0;
+	int FileAddress = 0;
 	UINT    NumBytesRead;
 	U8     * pData;
   FIL *p_file;
-	
+	FRESULT result;  
+
 	p_file=(FIL *)p;
 	pData  = (U8 *)*ppData;
 	
@@ -113,6 +114,10 @@ static int _GetData_PNG_BITMAPS(void * p, const U8 **ppData, unsigned int NumByt
 		FileAddress = Off;
 	
 	result =f_lseek(p_file, FileAddress);
+	if (result != FR_OK)
+	{
+		return 0;
+	}
 //  printf("lseek:result->(%d) off->(%ld) address->(%d)\n",result,Off,FileAddress);
 	/*
 	* 读取数据到指针的位置
@@ -134,19 +139,25 @@ static int _GetData_PNG_BITMAPS(void * p, const U8 **ppData, unsigned int NumByt
   */
 void _ShowBMPEx(const char * sFilename, uint16_t usPOSX, uint16_t usPOSY) 
 {	 
+	FRESULT result;  
 
-#if (USE_MEM == EMWIN_MEM)
+	IN_DATA in_data;
 	
-	GUI_HMEM hMem;
-
+	GUI_HMEM hMem,hMem2;	
+  
 	//从emwin内存中分配空间
 	hMem = GUI_ALLOC_AllocZero(PIC_BUFFRE_SIZE);
 	//把空间句柄转成指针
-	_acBuffer = GUI_ALLOC_h2p(hMem);
-#endif
+	in_data._acBuffer = GUI_ALLOC_h2p(hMem);
+	
+	//从emwin内存中分配空间
+	hMem2 = GUI_ALLOC_AllocZero(sizeof(FIL));
+
+	//把空间句柄转成指针
+	in_data.file = GUI_ALLOC_h2p(hMem2);
 	
     /* 打开文件 */		
-	result = f_open(&file, sFilename, FA_OPEN_EXISTING | FA_READ | FA_OPEN_ALWAYS);
+	result = f_open(in_data.file, sFilename, FA_OPEN_EXISTING | FA_READ | FA_OPEN_ALWAYS);
   
 	if (result != FR_OK)
 	{
@@ -155,15 +166,15 @@ void _ShowBMPEx(const char * sFilename, uint16_t usPOSX, uint16_t usPOSY)
 
   printf("file open ok\n");
 	
-	GUI_BMP_DrawEx(_GetData_BMP_GIF_JPEG, &file, usPOSX, usPOSY);
+	GUI_BMP_DrawEx(_GetData_BMP_GIF_JPEG, &in_data, usPOSX, usPOSY);
 
-	f_close(&file);
-	
-#if (USE_MEM == EMWIN_MEM)
+	f_close(in_data.file);
 	
 	//释放申请的空间
 	GUI_ALLOC_Free(hMem);
-#endif
+		//释放申请的空间
+	GUI_ALLOC_Free(hMem2);
+
 }
 
  /**
@@ -175,33 +186,41 @@ void _ShowBMPEx(const char * sFilename, uint16_t usPOSX, uint16_t usPOSY)
   */
 void _ShowJPEGEx(const char * sFilename, uint16_t usPOSX, uint16_t usPOSY)  
 {	 
+	FRESULT result;  
 
-#if (USE_MEM == EMWIN_MEM)
-  GUI_HMEM hMem;
-
+	IN_DATA in_data;
+	
+	GUI_HMEM hMem,hMem2;	
+  
 	//从emwin内存中分配空间
 	hMem = GUI_ALLOC_AllocZero(PIC_BUFFRE_SIZE);
 	//把空间句柄转成指针
-	_acBuffer = GUI_ALLOC_h2p(hMem);
-#endif
+	in_data._acBuffer = GUI_ALLOC_h2p(hMem);
+	
+	//从emwin内存中分配空间
+	hMem2 = GUI_ALLOC_AllocZero(sizeof(FIL));
+
+	//把空间句柄转成指针
+	in_data.file = GUI_ALLOC_h2p(hMem2);
+
 	
 	/* 打开文件 */		
-	result = f_open(&file, sFilename, FA_OPEN_EXISTING | FA_READ | FA_OPEN_ALWAYS);
+	result = f_open(in_data.file, sFilename, FA_OPEN_EXISTING | FA_READ | FA_OPEN_ALWAYS);
 	if (result != FR_OK)
 	{
 		printf("result = %d",result);
 		return;
 	}
 
-  GUI_JPEG_DrawEx(_GetData_BMP_GIF_JPEG, &file, usPOSX, usPOSY);
+  GUI_JPEG_DrawEx(_GetData_BMP_GIF_JPEG, &in_data, usPOSX, usPOSY);
 
-	f_close(&file);
+	f_close(in_data.file);
 	
-#if (USE_MEM == EMWIN_MEM)
-	
+
 	//释放申请的空间
 	GUI_ALLOC_Free(hMem);
-#endif
+		//释放申请的空间
+	GUI_ALLOC_Free(hMem2);
 
 }
 
@@ -258,7 +277,6 @@ void _ShowGIF(uint8_t * imgBuffer, uint32_t BufferSize,uint16_t usPOSX, uint16_t
 		}	
 	}
 
-	f_close(&file);
 }
 
  /**
@@ -271,35 +289,43 @@ void _ShowGIF(uint8_t * imgBuffer, uint32_t BufferSize,uint16_t usPOSX, uint16_t
   * @retval 无
   */
 void _ShowGIFEx(const char * sFilename, uint16_t usPOSX, uint16_t usPOSY,uint32_t ctime)  
-{	   
+{	  
+	FRESULT result;  	
  	GUI_GIF_INFO 				GIFInfo;
 	GUI_GIF_IMAGE_INFO  GIF_ImageInfo;
 	uint16_t		i=0;
 	uint32_t   t0,t1;
 	uint8_t 		forver =  0;
+		
+	IN_DATA in_data;
 	
-#if (USE_MEM == EMWIN_MEM)
-	
-	GUI_HMEM hMem;	
+	GUI_HMEM hMem,hMem2;	
   
 	//从emwin内存中分配空间
 	hMem = GUI_ALLOC_AllocZero(PIC_BUFFRE_SIZE);
 	//把空间句柄转成指针
-	_acBuffer = GUI_ALLOC_h2p(hMem);
-#endif
+	in_data._acBuffer = GUI_ALLOC_h2p(hMem);
+	
+	//从emwin内存中分配空间
+	hMem2 = GUI_ALLOC_AllocZero(sizeof(FIL));
+
+	//把空间句柄转成指针
+	in_data.file = GUI_ALLOC_h2p(hMem2);
+
 	
 	//若输入的ctime == 0，GIF图片一直循环显示
 	if(ctime == 0) forver =1;	
 
 	/* 打开文件 */		
-	result = f_open(&file, sFilename, FA_OPEN_EXISTING | FA_READ | FA_OPEN_ALWAYS);
+	result = f_open(in_data.file, sFilename, FA_OPEN_EXISTING | FA_READ | FA_OPEN_ALWAYS);
 	if (result != FR_OK)
 	{
 		return;
 	}
+	
 
 	//获取GIF图片信息
-	GUI_GIF_GetInfoEx(_GetData_BMP_GIF_JPEG,&file.fs,&GIFInfo);
+	GUI_GIF_GetInfoEx(_GetData_BMP_GIF_JPEG,&in_data,&GIFInfo);
 
 	while(ctime-- || forver)
 	{
@@ -307,7 +333,7 @@ void _ShowGIFEx(const char * sFilename, uint16_t usPOSX, uint16_t usPOSY,uint32_
 		//循环显示所有子图片
 		while(i<GIFInfo.NumImages)
 		{
-			GUI_GIF_GetImageInfoEx(_GetData_BMP_GIF_JPEG,&file,&GIF_ImageInfo,i);
+			GUI_GIF_GetImageInfoEx(_GetData_BMP_GIF_JPEG,&in_data,&GIF_ImageInfo,i);
 		
 			//emwin要求，当GIF_ImageInfo.Delay ==0 时，要延时100ms
 			if(GIF_ImageInfo.Delay == 0)
@@ -315,7 +341,7 @@ void _ShowGIFEx(const char * sFilename, uint16_t usPOSX, uint16_t usPOSY,uint32_
 			
 			t0 = GUI_GetTime();
 			GUI_GIF_DrawSubEx(_GetData_BMP_GIF_JPEG,
-													&file, 
+													&in_data, 
 													usPOSX, 
 													usPOSY,
 													i++);
@@ -330,13 +356,13 @@ void _ShowGIFEx(const char * sFilename, uint16_t usPOSX, uint16_t usPOSY,uint32_
 		}	
 	}
 
-	f_close(&file);
-
-#if (USE_MEM == EMWIN_MEM)
+	f_close(in_data.file);
 
 	//释放申请的空间
 	GUI_ALLOC_Free(hMem);
-#endif
+		//释放申请的空间
+	GUI_ALLOC_Free(hMem2);
+
 }
 
  /**
@@ -348,16 +374,34 @@ void _ShowGIFEx(const char * sFilename, uint16_t usPOSX, uint16_t usPOSY,uint32_
   */
 void _DrawPNG_file(const char * sFilename, uint16_t usPOSX, uint16_t usPOSY) 
 {  
+	FRESULT result;  
+
+	FIL *file;
+	
+	GUI_HMEM hMem;	
+  
+	//从emwin内存中分配空间
+	hMem = GUI_ALLOC_AllocZero(sizeof(FIL));
+
+	//把空间句柄转成指针
+	file = GUI_ALLOC_h2p(hMem);
+
+	
+	
 /* 打开文件 */		
-	result = f_open(&file, sFilename, FA_OPEN_EXISTING | FA_READ | FA_OPEN_ALWAYS);
+	result = f_open(file, sFilename, FA_OPEN_EXISTING | FA_READ | FA_OPEN_ALWAYS);
 //  printf("\nopen file (%s) result->(%d)\n",sFilename,result);
 	if (result != FR_OK)
 	{
 		return;
 	}  
-	GUI_PNG_DrawEx(_GetData_PNG_BITMAPS, &file, usPOSX, usPOSY); 
+	GUI_PNG_DrawEx(_GetData_PNG_BITMAPS, file, usPOSX, usPOSY); 
 //  printf("png draw ok\n");
-	f_close(&file);	
+	f_close(file);		
+
+	//释放申请的空间
+	GUI_ALLOC_Free(hMem);
+
 
 }
 /*********************************************END OF FILE**********************/
