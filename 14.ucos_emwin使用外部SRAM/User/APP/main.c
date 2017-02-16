@@ -101,7 +101,6 @@ int  main (void)
 		
 }
 
-extern void GTP_TouchProcess(void);
 
 /**
   * @brief  启动任务函数，主要完成ucos、BSP、GUI以及其它任务的初始化
