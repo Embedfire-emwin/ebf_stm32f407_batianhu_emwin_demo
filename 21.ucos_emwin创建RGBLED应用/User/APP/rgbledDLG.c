@@ -99,9 +99,9 @@ static void _cbDialogRGBLED(WM_MESSAGE * pMsg) {
 		LED_GPIO_Config();
 	
 		ICON_Clicked[0] = 0;
-		UserApp_Clicked = 0;
-//    tpad_flag=0;
-//		WM_DeleteWindow(hkeypad);
+		UserApp_Running = 0;
+    tpad_flag=0;
+		WM_DeleteWindow(hkeypad);
     Rheostat_TurnOFF();
 		// USER END
 	break;
@@ -120,7 +120,7 @@ static void _cbDialogRGBLED(WM_MESSAGE * pMsg) {
     EDIT_SetFont(hItem, GUI_FONT_24B_ASCII);
     EDIT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 		EDIT_SetUlongMode(hItem,rValue,0,255);		
-    EDIT_EnableBlink(hItem,250,1);
+//    EDIT_EnableBlink(hItem,250,1);
     //
     // Initialization of 'gEdit'
     //
@@ -128,7 +128,7 @@ static void _cbDialogRGBLED(WM_MESSAGE * pMsg) {
     EDIT_SetUlongMode(hItem,gValue,0,255);
     EDIT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
     EDIT_SetFont(hItem, GUI_FONT_24B_ASCII);
-    EDIT_EnableBlink(hItem,250,1);
+//    EDIT_EnableBlink(hItem,250,1);
     //
     // Initialization of 'bEdit'
     //
@@ -136,7 +136,7 @@ static void _cbDialogRGBLED(WM_MESSAGE * pMsg) {
     EDIT_SetUlongMode(hItem,bValue,0,255);
     EDIT_SetFont(hItem, GUI_FONT_24B_ASCII);
     EDIT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
-    EDIT_EnableBlink(hItem,250,1);
+//    EDIT_EnableBlink(hItem,250,1);
 		//
 		// Initialization of 'rSlider'
 		//
@@ -257,7 +257,7 @@ static void _cbDialogRGBLED(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-//				KeyPad_Interface(WM_GetDialogItem(pMsg->hWin, GUI_ID_EDIT0),0);
+				KeyPad_Interface(WM_GetDialogItem(pMsg->hWin, GUI_ID_EDIT0),0);
         // USER END
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
@@ -280,7 +280,7 @@ static void _cbDialogRGBLED(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-//				KeyPad_Interface(WM_GetDialogItem(pMsg->hWin, GUI_ID_EDIT1),0);
+				KeyPad_Interface(WM_GetDialogItem(pMsg->hWin, GUI_ID_EDIT1),0);
         // USER END
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
@@ -303,7 +303,7 @@ static void _cbDialogRGBLED(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-//				KeyPad_Interface(WM_GetDialogItem(pMsg->hWin, GUI_ID_EDIT2),0);
+				KeyPad_Interface(WM_GetDialogItem(pMsg->hWin, GUI_ID_EDIT2),0);
         // USER END
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
@@ -396,7 +396,7 @@ void FUN_ICON0Clicked(void)
   //创建窗口
   hWin=GUI_CreateDialogBox(_aDialogCreateRGBLED, GUI_COUNTOF(_aDialogCreateRGBLED), _cbDialogRGBLED, WM_HBKWIN, 0, 0);
 		
-  while(ICON_Clicked[0]) 
+  while(UserApp_Running) 
 	{	
 		//定时更新adc值
     if(timecount==50)
@@ -411,7 +411,7 @@ void FUN_ICON0Clicked(void)
       timecount=0;
     }
     timecount++;
-//    if(tpad_flag)WM_DeleteWindow(hWin);     
+    if(tpad_flag)WM_DeleteWindow(hWin);     
 		GUI_Delay(10); 				
 	}
 	

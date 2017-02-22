@@ -88,7 +88,7 @@ static const BITMAP_ITEM _aBitmapItem[] =
 };
 
 
-uint8_t UserApp_Clicked=0;
+uint8_t UserApp_Running=0;
 
 uint8_t ICON_Clicked[13]   = {0};   /* ICONVIEW控件按下的标志，0表示未按下，1表示按下 */
 
@@ -237,6 +237,10 @@ static void CreateMidWin(void)
 static void _cbMidWin(WM_MESSAGE * pMsg) 
 {
 	int NCode, Id;
+	
+	//指示当前图标是否被按下
+	static uint8_t selecting = 0;
+	
 	switch (pMsg->MsgId) 
 	{
 		case WM_NOTIFY_PARENT:
@@ -247,17 +251,27 @@ static void _cbMidWin(WM_MESSAGE * pMsg)
 				case GUI_ID_ICONVIEW0:
 					switch (NCode) 
 					{
+						case WM_NOTIFICATION_MOVED_OUT:
+							selecting =0;
+							WM_InvalidateWindow(pMsg->hWin);
+							break;
+						
 						/* ICON控件点击消息 */
 						case WM_NOTIFICATION_CLICKED:
-              UserApp_Clicked=1;
+							selecting =1;
 							break;
 						
 						/* ICON控件释放消息 */
-						case WM_NOTIFICATION_RELEASED: 							
+						case WM_NOTIFICATION_RELEASED: 
+              UserApp_Running=1;
+							
+							selecting =0;
+							WM_InvalidateWindow(pMsg->hWin);
+
+							
 							/* 打开相应选项 */
 							switch(ICONVIEW_GetSel(pMsg->hWinSrc))
 							{
-								
 								/* RGBLED *******************************************************************/
 								case 0:	
 									//记录图标被按下的标志
@@ -373,6 +387,11 @@ static void _cbMidWin(WM_MESSAGE * pMsg)
 			{
 				GUI_SetBkColor(DTCOLOR);
 				GUI_Clear();
+				
+				//若图标不是被按下，选择为-1项图标，以清空图标的选中框
+				if(selecting == 0)
+		       ICONVIEW_SetSel(WM_GetDialogItem(WinPara.hWinMid, GUI_ID_ICONVIEW0),-1);
+
 			}			
 		break;			
 	 default:
@@ -412,13 +431,12 @@ void _cbBkWindow(WM_MESSAGE * pMsg)
 		/* 重绘消息*/
 		case WM_PAINT:		
 				GUI_SetBkColor(DTCOLOR);
-				GUI_Clear();	
-        ICONVIEW_SetSel(WM_GetDialogItem(WinPara.hWinMid, GUI_ID_ICONVIEW0),-1);
+				GUI_Clear();
 		break;
 		
 		case WM_TIMER:
 			
-		  if(UserApp_Clicked==1)
+		  if(UserApp_Running==1)
       {
         WM_RestartTimer(pMsg->Data.v, 1000);
         break; 
@@ -451,10 +469,6 @@ void  AppTaskDesktop (void  )
 
 	GUI_SetColor(GUI_BLACK);
 	GUI_Clear();
-	GUI_SetColor(GUI_WHITE);
-  GUI_SetFont(GUI_FONT_32B_ASCII);
-  GUI_DispStringHCenterAt("Starting...\nWait a moment",250,100);
-  GUI_Delay(50);
 	
 	//准备建立2个窗口，以下是使用到的用户定义参数，方便在回调函数中使用
 	WinPara.xSizeLCD = LCD_GetXSize();				            //LCD屏幕尺寸
@@ -488,7 +502,7 @@ void  AppTaskDesktop (void  )
   FRAMEWIN_SetDefaultClientColor(APPBKCOLOR);
   FRAMEWIN_SetDefaultFont(&FONT_XINSONGTI_25);
   FRAMEWIN_SetDefaultTextColor(1,TEXTCOLOR);
-  FRAMEWIN_SetDefaultTitleHeight(30);
+  FRAMEWIN_SetDefaultTitleHeight(35);
   FRAMEWIN_SetDefaultTextAlign(GUI_TA_LEFT | GUI_TA_VCENTER);
 
   WINDOW_SetDefaultBkColor(APPBKCOLOR);
@@ -524,7 +538,7 @@ void  AppTaskDesktop (void  )
 	/* 创建窗口 状态栏、主窗口*/
 	CreateTopWin();
 	CreateMidWin();
-
+	
   while(1)
   {			
     emWinMainApp();

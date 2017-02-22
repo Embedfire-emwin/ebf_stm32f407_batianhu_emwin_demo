@@ -91,6 +91,10 @@
 #include "./touch/gt5xx.h"
 #include "./sram/bsp_sram.h"	  
 #include "./key/bsp_key.h" 
+#include "./beep/bsp_beep.h"
+#include "./TouchPad/bsp_touchpad.h"
+#include "./lcd/bsp_ili9806g_lcd.h"
+
 
 #include "ff.h"
 

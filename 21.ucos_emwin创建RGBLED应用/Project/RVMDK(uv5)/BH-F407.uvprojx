@@ -802,6 +802,16 @@
               <FileType>1</FileType>
               <FilePath>..\..\User\APP\rgbledDLG.c</FilePath>
             </File>
+            <File>
+              <FileName>keypadapp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\APP\keypadapp.c</FilePath>
+            </File>
+            <File>
+              <FileName>pysearch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\APP\pysearch.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -851,6 +861,16 @@
               <FileName>bsp_key.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\BSP\key\bsp_key.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_touchpad.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\BSP\TouchPad\bsp_touchpad.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_beep.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\BSP\beep\bsp_beep.c</FilePath>
             </File>
             <File>
               <FileName>bsp_color_led.c</FileName>
