@@ -103,6 +103,9 @@ static void _cbDialogUSB(WM_MESSAGE * pMsg) {
     // Initialization of 'USB'
     //
     hItem = pMsg->hWin;
+	
+		FRAMEWIN_SetClientColor(hItem,GUI_BLACK);
+
     FRAMEWIN_SetText(hItem,UTF8_USBDLG);
     FRAMEWIN_AddCloseButton(hItem,FRAMEWIN_BUTTON_RIGHT,0);
     //

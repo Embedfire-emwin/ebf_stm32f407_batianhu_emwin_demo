@@ -49,7 +49,7 @@ static  OS_TCB   AppTaskDesktopTCB;
 *                                              栈空间STACKS
 *********************************************************************************************************
 */
-static  CPU_STK  BSPTaskKeyScanStk[BSP_TASK_KEY_SCAN_STK_SIZE];
+static  CPU_STK  BSPTaskKeyScanStk[BSP_TASK_KEY_SCAN_STK_SIZE] __EXRAM;
 static  CPU_STK  BSPTaskTouchPadScanStk[BSP_TASK_TOUCHPAD_SCAN_STK_SIZE];
 static  CPU_STK  BSPTaskGTPScanStk[BSP_TASK_GTP_SCAN_STK_SIZE];
 static  CPU_STK  AppTaskStartStk[APP_TASK_START_STK_SIZE];
@@ -173,7 +173,7 @@ static  void  AppTaskStart (void *p_arg)
  //任务死循环
 	while (DEF_TRUE) 
 	{                                        
-//			LED2_TOGGLE ;
+			LED2_TOGGLE ;
 			APP_TRACE_DBG(("\r\ncpu使用率:%.2f%%",((float)OSStatTaskCPUUsage/100)));
 		
 		  //延时，所有任务函数的死循环内都应有至少1ms延时

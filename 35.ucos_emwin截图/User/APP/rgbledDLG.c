@@ -107,6 +107,9 @@ static void _cbDialogRGBLED(WM_MESSAGE * pMsg) {
     // Initialization of 'RGBLED'
     //
 		hItem = pMsg->hWin;
+	
+		FRAMEWIN_SetClientColor(hItem,GUI_BLACK);
+
     sprintf(tempstr,"%s&%s",UTF8_RGBLEDDLG,UTF8_ADCONVER);
 		FRAMEWIN_SetText(hItem,tempstr);
 		FRAMEWIN_AddCloseButton(hItem,FRAMEWIN_BUTTON_RIGHT,0);
@@ -321,8 +324,14 @@ static void _cbDialogRGBLED(WM_MESSAGE * pMsg) {
     break;
   // USER START (Optionally insert additional message handling)
 	case WM_PAINT:
-		GUI_SetColor(GUI_BLACK);
+  				
+		GUI_SetBkColor(GUI_BLACK);
 		GUI_Clear();
+	GUI_Delay(10);
+		GUI_SetBkColor(APPBKCOLOR);
+		GUI_Clear();
+		GUI_Delay(10);
+
     GUI_SetPenSize( 2 );
     GUI_SetColor(GUI_BLUE);  
     GUI_DrawRect(45,20,425,600);

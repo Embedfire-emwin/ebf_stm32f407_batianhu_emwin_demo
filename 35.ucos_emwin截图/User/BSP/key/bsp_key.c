@@ -130,9 +130,9 @@ void  BSPTaskKeyScan  (void )
 				
 				
 							static uint8_t name_count = 0;
-							char name[40];
+							char name[100];
 								
-				      OSSchedLock(&os_err);
+//				      OSSchedLock(&os_err);
 
 							//用来设置截图名字，防止重复，实际应用中可以使用系统时间来命名。
 							name_count++; 
@@ -145,19 +145,17 @@ void  BSPTaskKeyScan  (void )
 				
 							printf("\r\n截图完成！");
 							
-							OSSchedUnlock(&os_err);
-				
-							OSFlagPost ((OS_FLAG_GRP  *)&key_flag_grp,                             //将标志组的BIT0清0
-														(OS_FLAGS      )EVEN_KEY2_DOWN,
-														(OS_OPT        )OS_OPT_POST_FLAG_SET,
-														(OS_ERR       *)&os_err);
+//							OSSchedUnlock(&os_err);
+//							OSFlagPost ((OS_FLAG_GRP  *)&key_flag_grp,                             //将标志组的BIT0清0
+//														(OS_FLAGS      )EVEN_KEY2_DOWN,
+//														(OS_OPT        )OS_OPT_POST_FLAG_SET,
+//														(OS_ERR       *)&os_err);
 			}
 			else
 			{
 			
-			}
-			
-			
+			}			
+
 			//延时，所有任务函数的死循环内都应有至少1ms延时
 		  //特别是高优先级的任务，若无延时，其它低优先级任务可能会无机会执行
 			OSTimeDly(15u, 

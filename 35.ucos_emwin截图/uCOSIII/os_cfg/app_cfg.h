@@ -65,7 +65,7 @@
 *                                            TASK STACK SIZES
 *********************************************************************************************************
 */
-#define  BSP_TASK_KEY_SCAN_STK_SIZE                 128u
+#define  BSP_TASK_KEY_SCAN_STK_SIZE                 1024*4
 #define  BSP_TASK_TOUCHPAD_SCAN_STK_SIZE           128u
 #define  BSP_TASK_GTP_SCAN_STK_SIZE           128u
 #define  APP_TASK_GIF_STK_SIZE                 		1024u

@@ -16,7 +16,7 @@
 //桌面颜色
 #define DTCOLOR         0X200000
 #define TEXTCOLOR       GUI_WHITE
-#define APPBKCOLOR  		GUI_DARKGRAY
+#define APPBKCOLOR  		0x0070706e//GUI_DARKGRAY//GUI_BLACK//
 #define APPTEXTCOLOR    GUI_WHITE
 
 //图标背景颜色

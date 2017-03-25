@@ -28,6 +28,10 @@ RTC_TIME rtc_time;
 
 WIN_PARA WinPara;			//用户使用的窗口额外数据
 
+
+//static WM_HMEM DESKTOP_TIMERt;
+//static WM_HMEM TIMEWIN_TIMERt;
+
 /* 用于桌面ICONVIEW0图标的创建 */
 static const BITMAP_ITEM _aBitmapItem[] = 
 {
@@ -121,10 +125,28 @@ extern void FUN_ICON10Clicked(void);
 extern void FUN_ICON11Clicked(void);
 
 extern void FUN_ICON12Clicked(void);
- void FUN_ICON13Clicked(void){printf("FUN_ICON13Clicked\n");}
- void FUN_ICON14Clicked(void){printf("FUN_ICON14Clicked\n");}
- void FUN_ICON15Clicked(void){printf("FUN_ICON15Clicked\n");}
 
+#define UTF8_ICONERROR        "\xe6\x9c\xac\xe5\x9b\xbe\xe6\xa0\x87\xe4\xbb\x85\xe7\x94\xa8\xe4\xba\x8e\xe6\xa1\x8c\xe9\x9d\xa2\xe5\xaf\xb9\xe9\xbd\x90"//本图标仅用于桌面对齐
+#define UTF8_ICONERROR1       "\xe4\xb8\x8d\xe6\x8f\x90\xe4\xbe\x9b\xe5\xba\x94\xe7\x94\xa8\xe5\x8a\x9f\xe8\x83\xbd,\xe5\x8f\xaf\xe8\x87\xaa\xe8\xa1\x8c\xe7\xbc\x96\xe5\x86\x99\xe7\xa8\x8b\xe5\xba\x8f"//不提供应用功能，可自行编写程序
+      
+
+void FUN_ICON13Clicked(void)
+{
+	ErrorDialog(WM_HBKWIN,UTF8_ICONERROR,UTF8_ICONERROR1);
+	printf("FUN_ICON13Clicked\n");
+}
+
+void FUN_ICON14Clicked(void)
+{
+	ErrorDialog(WM_HBKWIN,UTF8_ICONERROR,UTF8_ICONERROR1);
+	printf("FUN_ICON14Clicked\n");
+}
+
+void FUN_ICON15Clicked(void)
+{
+	ErrorDialog(WM_HBKWIN,UTF8_ICONERROR,UTF8_ICONERROR1);
+	printf("FUN_ICON15Clicked\n");
+}
 
 /**
   * @brief  CreateTopWin，创建顶部的窗口
@@ -142,14 +164,14 @@ static void CreateTopWin(void)
 	
 	/* 状态栏的时间显示文本 */
 	hText = TEXT_CreateEx(WinPara.xSizeLCD/2-50,2,100,30,
-													WM_HBKWIN,WM_CF_SHOW|WM_CF_MEMDEV,
+													WM_HBKWIN,WM_CF_HIDE/*WM_CF_SHOW*/|WM_CF_MEMDEV,
 													GUI_TA_HCENTER|TEXT_CF_VCENTER,
 													GUI_ID_TEXT1,
 													"11:56:00");
-	
-	//TEXT_SetBkColor(hText,GUI_INVALID_COLOR);
-	TEXT_SetTextColor(hText,STATUS_TEXT_COLOR);
-	TEXT_SetFont(hText,GUI_FONT_24B_ASCII);
+//	
+//	//TEXT_SetBkColor(hText,GUI_INVALID_COLOR);
+//	TEXT_SetTextColor(hText,STATUS_TEXT_COLOR);
+//	TEXT_SetFont(hText,GUI_FONT_24B_ASCII);
   	/* 状态栏的时间显示文本 */
 	hText = TEXT_CreateEx(WinPara.xSizeLCD-200,2,200,30,
 													WM_HBKWIN,WM_CF_SHOW|WM_CF_MEMDEV,
@@ -179,9 +201,18 @@ void _cbTimeWin(WM_MESSAGE * pMsg)
 	switch (pMsg->MsgId) 
 	{
 		/* 重绘消息*/
-		case WM_PAINT:		
+		case WM_PAINT:	
+//					//选择操作当前窗口
+					WM_SelectWindow(pMsg->hWin);
 			
-//		break;
+					GUI_SetBkColor(GUI_DARKGRAY);
+//							GUI_SetColor(GUI_DARKGRAY);
+
+					GUI_Clear();	
+					//恢复操作默认的背景窗口
+					WM_SelectWindow(WM_HBKWIN);
+
+		break;
 		
 		case WM_TIMER:		
 				if(UserApp_Running==1)
@@ -204,7 +235,7 @@ void _cbTimeWin(WM_MESSAGE * pMsg)
 				
 					GUI_SetColor(GUI_WHITE);
 					GUI_SetBkColor(GUI_DARKGRAY);
-					GUI_Clear();	
+//					GUI_Clear();	
 
 					GUI_SetFont(GUI_FONT_D36X48);
 					GUI_DispStringHCenterAt(text_buffer,TIMEWIN_xSize/2,25);
@@ -247,7 +278,7 @@ static void CreateTimeWin(void)
 																				);
 	
 	//创建窗口定时器，以定时更新时间使用率信息
-	WM_CreateTimer(TIMEWIN, 0, 200, 0);
+	/*TIMEWIN_TIMER =*/ WM_CreateTimer(TIMEWIN, GUI_ID_STATUS_CPU_USAGE+10, 200, 0);
 
 	
 	/* 大时间显示文本 */
@@ -502,11 +533,16 @@ static void _cbMidWin(WM_MESSAGE * pMsg)
 								
 									FUN_ICON15Clicked();
 									break;  								
-								}
+								}	
+							//重启时间窗口的定时器	
+//		WM_RestartTimer( WM_GetDialogItem(pMsg->hWin, GUI_ID_STATUS_CPU_USAGE),TIMEWIN_TIMER, 500);
+//    WM_RestartTimer(DESKTOP_TIMER, 1000);
+
 							 break;
 						}
 					break;
 			}
+
 			break;
 			
 		/* 重绘消息*/
@@ -552,7 +588,7 @@ void _cbBkWindow(WM_MESSAGE * pMsg)
 {
 	char text_buffer[20]={0};
 	WM_HWIN hItem;
-  uint8_t sec, min, hour;
+//  uint8_t sec, min, hour;
 
 	switch (pMsg->MsgId) 
 	{
@@ -596,6 +632,8 @@ void _cbBkWindow(WM_MESSAGE * pMsg)
 	}
 }
 
+
+
 /**
 * @brief  任务函数，显示GUI的桌面
 * @param  无  
@@ -606,7 +644,9 @@ void  AppTaskDesktop (void  )
 	FRAMEWIN_SKINFLEX_PROPS FRAMEWIN_pProps;
   RADIO_SKINFLEX_PROPS    RADIO_pProps;
 
-	GUI_SetColor(GUI_BLACK);
+//	GUI_SetColor(GUI_BLACK);
+	GUI_SetBkColor(GUI_BLACK);
+
 	GUI_Clear();
 	
 	//准备建立2个窗口，以下是使用到的用户定义参数，方便在回调函数中使用
@@ -635,8 +675,8 @@ void  AppTaskDesktop (void  )
   FRAMEWIN_pProps.aColorFrame[1]=GUI_BLACK;
   FRAMEWIN_pProps.aColorFrame[2]=GUI_BLACK;
   FRAMEWIN_pProps.Radius=0;
-  FRAMEWIN_pProps.aColorTitle[0]=GUI_BLACK;
-  FRAMEWIN_pProps.aColorTitle[1]=GUI_BLACK;
+  FRAMEWIN_pProps.aColorTitle[0]=GUI_BLACK;//GUI_DARKGRAY;//
+  FRAMEWIN_pProps.aColorTitle[1]=GUI_BLACK;//GUI_DARKGRAY;//
   FRAMEWIN_SetSkinFlexProps(&FRAMEWIN_pProps,FRAMEWIN_SKINFLEX_PI_ACTIVE);
   FRAMEWIN_SetDefaultClientColor(APPBKCOLOR);
   FRAMEWIN_SetDefaultFont(&FONT_XINSONGTI_25);
@@ -679,8 +719,8 @@ void  AppTaskDesktop (void  )
 
 	//背景窗口回调函数
 	WM_SetCallback(WM_HBKWIN, _cbBkWindow);
-	//创建窗口定时器，以定时更新CPU使用率信息
-	WM_CreateTimer(WM_HBKWIN, 0, 500, 0);
+//	//创建窗口定时器，以定时更新CPU使用率信息
+	/*DESKTOP_TIMER =*/WM_CreateTimer(WM_HBKWIN, GUI_ID_STATUS_CPU_USAGE+12, 500, 0);
 
 	/* 创建窗口 状态栏、时间窗口、主窗口*/
 	CreateTopWin();
