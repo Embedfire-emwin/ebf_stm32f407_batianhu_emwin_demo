@@ -143,8 +143,8 @@ static void _cbDialogUSB(WM_MESSAGE * pMsg) {
     break;
   // USER START (Optionally insert additional message handling)
 	case WM_PAINT:	
-  		GUI_SetBkColor(APPBKCOLOR);
-		 GUI_Clear();
+//  		GUI_SetBkColor(APPBKCOLOR);
+//		 GUI_Clear();
      GUI_SetColor(GUI_LIGHTGREEN);  
      GUI_SetFont(&FONT_XINSONGTI_25);
      GUI_DispStringHCenterAt(UTF8_USEBEFORE,480/2,300);

@@ -325,11 +325,11 @@ static void _cbDialogRGBLED(WM_MESSAGE * pMsg) {
   // USER START (Optionally insert additional message handling)
 	case WM_PAINT:
   				
-		GUI_SetBkColor(GUI_BLACK);
-		GUI_Clear();
-	GUI_Delay(10);
-		GUI_SetBkColor(APPBKCOLOR);
-		GUI_Clear();
+//		GUI_SetBkColor(GUI_BLACK);
+//		GUI_Clear();
+//	GUI_Delay(10);
+//		GUI_SetBkColor(APPBKCOLOR);
+//		GUI_Clear();
 		GUI_Delay(10);
 
     GUI_SetPenSize( 2 );
