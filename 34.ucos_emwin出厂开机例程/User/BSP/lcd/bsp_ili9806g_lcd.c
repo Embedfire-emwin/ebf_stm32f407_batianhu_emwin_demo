@@ -300,6 +300,7 @@ static void ILI9806G_FSMC_Config ( void )
  */
 static void ILI9806G_REG_Config ( void )
 {
+	#if 1
 	/* EXTC Command Set enable register */
 	DEBUG_DELAY  ();
 	ILI9806G_Write_Cmd ( 0xFF  );
@@ -307,6 +308,7 @@ static void ILI9806G_REG_Config ( void )
 	ILI9806G_Write_Data ( 0x98  );
 	ILI9806G_Write_Data ( 0x06  );
 	
+	#if 1
 	/* GIP 1(BCh) */
 	DEBUG_DELAY ();
     ILI9806G_Write_Cmd(0xBC);
@@ -331,7 +333,33 @@ static void ILI9806G_REG_Config ( void )
     ILI9806G_Write_Data(0x01); 
     ILI9806G_Write_Data(0x00); 
     ILI9806G_Write_Data(0x00);
-	
+	#else
+		DEBUG_DELAY ();
+    ILI9806G_Write_Cmd(0xBC);
+		
+//    ILI9806G_Write_Data(0x21); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x10); 
+    ILI9806G_Write_Data(0x00); 
+    ILI9806G_Write_Data(0x00); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x0B); 		
+    ILI9806G_Write_Data(0x11); 
+    ILI9806G_Write_Data(0x32); 
+    ILI9806G_Write_Data(0x10); 
+    ILI9806G_Write_Data(0x00); 
+    ILI9806G_Write_Data(0x00); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x40); 
+    ILI9806G_Write_Data(0x42); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x00);	
+	  ILI9806G_Write_Data(0x40);
+	#endif
 	/* GIP 2 (BDh) */
 	DEBUG_DELAY ();
     ILI9806G_Write_Cmd(0xBD);
@@ -360,7 +388,17 @@ static void ILI9806G_REG_Config ( void )
 	/* Vcom  (C7h) */
 	DEBUG_DELAY ();
 	ILI9806G_Write_Cmd ( 0xC7 );
-	ILI9806G_Write_Data ( 0x6F );
+	ILI9806G_Write_Data ( 0x5d );//5f
+	
+	/* LVGL (FCh) */
+	DEBUG_DELAY ();
+	ILI9806G_Write_Cmd ( 0xFC );
+	ILI9806G_Write_Data ( 0x0d );//0A
+	
+	/* DVDD Voltage Setting(F3h) */
+	DEBUG_DELAY ();
+	ILI9806G_Write_Cmd ( 0xF3 );
+	ILI9806G_Write_Data ( 0x78 );
 	
 	/* EN_volt_reg (EDh)*/
 	DEBUG_DELAY ();
@@ -376,10 +414,7 @@ static void ILI9806G_REG_Config ( void )
 	ILI9806G_Write_Data ( 0x0B );
     ILI9806G_Write_Data ( 0x0A );
 	
-	/* LVGL (FCh) */
-	DEBUG_DELAY ();
-	ILI9806G_Write_Cmd ( 0xFC );
-	ILI9806G_Write_Data ( 0x0A );
+	
 	
 	/* Engineering Setting (DFh) */
 	DEBUG_DELAY ();
@@ -391,10 +426,7 @@ static void ILI9806G_REG_Config ( void )
     ILI9806G_Write_Data ( 0x00 );
     ILI9806G_Write_Data ( 0x20 );
     
-	/* DVDD Voltage Setting(F3h) */
-	DEBUG_DELAY ();
-	ILI9806G_Write_Cmd ( 0xF3 );
-	ILI9806G_Write_Data ( 0x74 );
+	
 	
 	/* Display Inversion Control (B4h) */
 	ILI9806G_Write_Cmd ( 0xB4 );
@@ -410,7 +442,7 @@ static void ILI9806G_REG_Config ( void )
 	ILI9806G_Write_Cmd ( 0xB1 );
 	ILI9806G_Write_Data ( 0x00 );
 	ILI9806G_Write_Data ( 0x12 );
-    ILI9806G_Write_Data ( 0x13 );
+    ILI9806G_Write_Data ( 0x10 );
     
 	/* Panel Timing Control (F2h) */
 	ILI9806G_Write_Cmd ( 0xF2 );
@@ -478,6 +510,202 @@ static void ILI9806G_REG_Config ( void )
     ILI9806G_Write_Cmd ( 0x11 );
     DEBUG_DELAY ();
 	ILI9806G_Write_Cmd ( 0x29 );
+	
+	#else
+	/* EXTC Command Set enable register */
+	DEBUG_DELAY  ();
+	ILI9806G_Write_Cmd ( 0xFF  );
+	ILI9806G_Write_Data ( 0xFF  );
+	ILI9806G_Write_Data ( 0x98  );
+	ILI9806G_Write_Data ( 0x06  );
+	
+	
+		ILI9806G_Write_Cmd ( 0xBA  );
+	ILI9806G_Write_Data ( 0x60  );
+	/* GIP 1(BCh) */
+	DEBUG_DELAY ();
+    ILI9806G_Write_Cmd(0xBC);
+		
+//    ILI9806G_Write_Data(0x21); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x10); 
+    ILI9806G_Write_Data(0x00); 
+    ILI9806G_Write_Data(0x00); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x0B); 		
+    ILI9806G_Write_Data(0x11); 
+    ILI9806G_Write_Data(0x32); 
+    ILI9806G_Write_Data(0x10); 
+    ILI9806G_Write_Data(0x00); 
+    ILI9806G_Write_Data(0x00); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x40); 
+    ILI9806G_Write_Data(0x42); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x00);	
+	  ILI9806G_Write_Data(0x40);
+	
+	/* GIP 2 (BDh) */
+	DEBUG_DELAY ();
+    ILI9806G_Write_Cmd(0xBD);
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x23); 
+    ILI9806G_Write_Data(0x45); 
+    ILI9806G_Write_Data(0x67); 
+    ILI9806G_Write_Data(0x01); 
+    ILI9806G_Write_Data(0x23); 
+    ILI9806G_Write_Data(0x45); 
+    ILI9806G_Write_Data(0x67); 
+	
+	/* GIP 3 (BEh) */
+	DEBUG_DELAY ();
+    ILI9806G_Write_Cmd(0xBE);
+    ILI9806G_Write_Data(0x00); 
+    ILI9806G_Write_Data(0x21); 
+    ILI9806G_Write_Data(0xAB); 
+    ILI9806G_Write_Data(0x60); 
+    ILI9806G_Write_Data(0x22); 
+    ILI9806G_Write_Data(0x22); 
+    ILI9806G_Write_Data(0x22); 
+    ILI9806G_Write_Data(0x22); 
+    ILI9806G_Write_Data(0x22); 
+	
+	/* Vcom  (C7h) */
+	DEBUG_DELAY ();
+	ILI9806G_Write_Cmd ( 0xC7 );
+	ILI9806G_Write_Data ( 0x47 );
+	
+	/* EN_volt_reg (EDh)*/
+	DEBUG_DELAY ();
+	ILI9806G_Write_Cmd ( 0xED );
+	ILI9806G_Write_Data ( 0x7F );
+	ILI9806G_Write_Data ( 0x0F );
+    ILI9806G_Write_Data ( 0x00 );
+	
+	/* Power Control 1 (C0h) */
+	DEBUG_DELAY ();
+	ILI9806G_Write_Cmd ( 0xC0 );
+	ILI9806G_Write_Data ( 0x03 );
+	ILI9806G_Write_Data ( 0x0B );
+    ILI9806G_Write_Data ( 0x0C );
+		
+			/* LVGL (FCh) */
+	DEBUG_DELAY ();
+	ILI9806G_Write_Cmd ( 0xFD );
+	ILI9806G_Write_Data ( 0x0A );
+		ILI9806G_Write_Data ( 0x00 );
+		
+	/* LVGL (FCh) */
+	DEBUG_DELAY ();
+	ILI9806G_Write_Cmd ( 0xFC );
+	ILI9806G_Write_Data ( 0x08 );
+	
+		/* Engineering Setting (DFh) */
+	DEBUG_DELAY ();
+	ILI9806G_Write_Cmd ( 0xB4 );
+	ILI9806G_Write_Data ( 0x02 );
+	ILI9806G_Write_Data ( 0x02 );
+    ILI9806G_Write_Data ( 0x02 );
+		
+			/* Engineering Setting (DFh) */
+	DEBUG_DELAY ();
+	ILI9806G_Write_Cmd ( 0xF7 );
+	ILI9806G_Write_Data ( 0x81 );
+
+    
+					/* Engineering Setting (DFh) */
+	DEBUG_DELAY ();
+	ILI9806G_Write_Cmd ( 0xB1 );
+	ILI9806G_Write_Data ( 0x00 );
+	ILI9806G_Write_Data ( 0x13 );
+		ILI9806G_Write_Data ( 0x13 );
+		
+	/* Engineering Setting (DFh) */
+	DEBUG_DELAY ();
+	ILI9806G_Write_Cmd ( 0xF2 );
+	ILI9806G_Write_Data ( 0x80 );
+	ILI9806G_Write_Data ( 0x04 );
+    ILI9806G_Write_Data ( 0x42 );
+    ILI9806G_Write_Data ( 0x28 );
+		
+			/* Engineering Setting (DFh) */
+	DEBUG_DELAY ();
+	ILI9806G_Write_Cmd ( 0xF9 );
+	ILI9806G_Write_Data ( 0x00 );
+	ILI9806G_Write_Data ( 0xFD );
+    ILI9806G_Write_Data ( 0x80 );
+    ILI9806G_Write_Data ( 0xF0 );
+    ILI9806G_Write_Data ( 0xF0 );
+
+    
+	/* DVDD Voltage Setting(F3h) */
+	DEBUG_DELAY ();
+	ILI9806G_Write_Cmd ( 0xC1 );
+	ILI9806G_Write_Data ( 0x17 );
+    ILI9806G_Write_Data ( 0x9F );
+    ILI9806G_Write_Data ( 0x71 );
+    ILI9806G_Write_Data ( 0x20 );
+		
+	
+	DEBUG_DELAY ();
+    
+	ILI9806G_Write_Cmd(0xE0); 
+    ILI9806G_Write_Data(0x00); //P1 
+    ILI9806G_Write_Data(0x11); //P2 
+    ILI9806G_Write_Data(0x18); //P3 
+    ILI9806G_Write_Data(0x0C); //P4 
+    ILI9806G_Write_Data(0x0F); //P5 
+    ILI9806G_Write_Data(0x0D); //P6 
+    ILI9806G_Write_Data(0xC9); //P7 
+    ILI9806G_Write_Data(0x08); //P8 
+    ILI9806G_Write_Data(0x02); //P9 
+    ILI9806G_Write_Data(0x06); //P10 
+    ILI9806G_Write_Data(0x0F); //P11 
+    ILI9806G_Write_Data(0x0E); //P12 
+    ILI9806G_Write_Data(0x10); //P13 
+    ILI9806G_Write_Data(0x18); //P14 
+    ILI9806G_Write_Data(0x14); //P15 
+    ILI9806G_Write_Data(0x00); //P16 
+    
+    DEBUG_DELAY ();
+    
+    ILI9806G_Write_Cmd(0xE1); 
+    ILI9806G_Write_Data(0x00); //P1 
+    ILI9806G_Write_Data(0x05); //P2 
+    ILI9806G_Write_Data(0x0D); //P3 
+    ILI9806G_Write_Data(0x0B); //P4 
+    ILI9806G_Write_Data(0x0D); //P5 
+    ILI9806G_Write_Data(0x0B); //P6 
+    ILI9806G_Write_Data(0x75); //P7 
+    ILI9806G_Write_Data(0x03); //P8 
+    ILI9806G_Write_Data(0x09); //P9 
+    ILI9806G_Write_Data(0x0D); //P10 
+    ILI9806G_Write_Data(0x0C); //P11 
+    ILI9806G_Write_Data(0x10); //P12 
+    ILI9806G_Write_Data(0x0B); //P13 
+    ILI9806G_Write_Data(0x13); //P14 
+    ILI9806G_Write_Data(0x09); //P15 
+    ILI9806G_Write_Data(0x00); //P16  
+	
+    /* Tearing Effect ON (35h)  */
+	ILI9806G_Write_Cmd ( 0x35 );
+	ILI9806G_Write_Data ( 0x00 );
+    
+		
+		    ILI9806G_Write_Cmd ( 0x36 );
+	ILI9806G_Write_Data ( 0x01 );
+	
+    ILI9806G_Write_Cmd ( 0x3A );
+	ILI9806G_Write_Data ( 0x55 );
+    
+    ILI9806G_Write_Cmd ( 0x11 );
+    DEBUG_DELAY ();
+	ILI9806G_Write_Cmd ( 0x29 );
+	#endif
 	
 }
 
