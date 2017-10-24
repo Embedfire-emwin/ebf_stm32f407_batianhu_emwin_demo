@@ -48,7 +48,7 @@ static const BITMAP_ITEM _aBitmapItem[] =
 };
 
 
-uint8_t UserApp_Clicked=0;
+uint8_t UserApp_Running=0;
 
 uint8_t ICON_Clicked[12]   = {0};   /* ICONVIEW控件按下的标志，0表示未按下，1表示按下 */
 
@@ -172,6 +172,9 @@ static void CreateMidWin(void)
 static void _cbMidWin(WM_MESSAGE * pMsg) 
 {
 	int NCode, Id;
+		//指示当前图标是否被按下
+	static uint8_t selecting = 0;
+	
 	switch (pMsg->MsgId) 
 	{
 		case WM_NOTIFY_PARENT:
@@ -182,13 +185,21 @@ static void _cbMidWin(WM_MESSAGE * pMsg)
 				case GUI_ID_ICONVIEW0:
 					switch (NCode) 
 					{
+						case WM_NOTIFICATION_MOVED_OUT:
+							selecting =0;
+							WM_InvalidateWindow(pMsg->hWin);
+							break;
 						/* ICON控件点击消息 */
 						case WM_NOTIFICATION_CLICKED:
-              UserApp_Clicked=1;
+							selecting =1;
 							break;
 						
 						/* ICON控件释放消息 */
-						case WM_NOTIFICATION_RELEASED: 							
+						case WM_NOTIFICATION_RELEASED: 
+              UserApp_Running=1;
+							
+							selecting =0;
+							WM_InvalidateWindow(pMsg->hWin);
 							/* 打开相应选项 */
 							switch(ICONVIEW_GetSel(pMsg->hWinSrc))
 							{
@@ -308,8 +319,13 @@ static void _cbMidWin(WM_MESSAGE * pMsg)
 			{
 				GUI_SetBkColor(DTCOLOR);
 				GUI_Clear();
+				
+				//若图标不是被按下，选择为-1项图标，以清空图标的选中框
+				if(selecting == 0)
+		       ICONVIEW_SetSel(WM_GetDialogItem(WinPara.hWinMid, GUI_ID_ICONVIEW0),-1);
+
 			}			
-		break;			
+		break;		
 	 default:
 		WM_DefaultProc(pMsg);
 		break;
