@@ -161,11 +161,11 @@ static  void  AppTaskStart (void *p_arg)
 
 	//创建驱动任务
 	BSPTaskCreate();
-	//创建应用任务
-	AppTaskCreate(); 
-
 	//检查硬件错误
 	Hardware_Error_Check();
+
+	//创建应用任务
+	AppTaskCreate(); 
 
  //任务死循环
 	while (DEF_TRUE) 

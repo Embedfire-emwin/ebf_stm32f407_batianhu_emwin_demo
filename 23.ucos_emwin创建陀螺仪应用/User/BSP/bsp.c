@@ -363,7 +363,7 @@ void Hardware_Error_Check(void)
 	if (bsp_result != BSP_OK)
 	{
 		//ÏÔÊ¾´íÎó´úÂë
-		if(!((bsp_result&BSP_SRAM)||(bsp_result&BSP_GUI)))
+		if(!((bsp_result&BSP_SRAM)||(bsp_result&BSP_GUI)||(bsp_result&BSP_XBF)))
 		{
 			char tempstr[30];
 			sprintf(tempstr,"error!bsp_result->(0x%04X)",bsp_result);
