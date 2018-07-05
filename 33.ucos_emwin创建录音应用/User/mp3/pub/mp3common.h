@@ -92,7 +92,7 @@ typedef struct _MP3DecInfo {
 
 	int part23Length[MAX_NGRAN][MAX_NCHAN];
 	
-	unsigned char paddingBit; //占位状态//note:秉火修改
+	unsigned char paddingBit; //占位状态//note:野火修改
 
 } MP3DecInfo;
 

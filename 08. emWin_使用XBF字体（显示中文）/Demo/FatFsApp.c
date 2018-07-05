@@ -8,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  * 实验平台:秉火  STM32 F407 开发板 
+  * 实验平台:野火  STM32 F407 开发板 
   * 论坛    :http://www.firebbs.cn
   * 淘宝    :http://firestm32.taobao.com
   *
@@ -28,7 +28,7 @@ FRESULT res;
 UINT br, bw;            					/* File R/W count */
 BYTE buffer[4096]={0};       		  /* file copy buffer */
 char utf8_buffer[4096*2]={0};       		  /* file copy buffer */
-BYTE textFileBuffer[] = "欢迎使用秉火F407开发板，这是一个使用XBF字体显示的例子，本例子支持中文显示。";
+BYTE textFileBuffer[] = "欢迎使用野火F407开发板，这是一个使用XBF字体显示的例子，本例子支持中文显示。";
 
 //要测试的磁盘号，0为spi，1为sd卡
 char disk_num[] = "0:";

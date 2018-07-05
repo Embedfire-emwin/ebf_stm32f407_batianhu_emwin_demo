@@ -193,7 +193,7 @@ void MP3GetLastFrameInfo(HMP3Decoder hMP3Decoder, MP3FrameInfo *mp3FrameInfo)
 		mp3FrameInfo->outputSamps = 0;
 		mp3FrameInfo->layer = 0;
 		mp3FrameInfo->version = 0;
-		mp3FrameInfo->paddingBit = 0;//note:±ü»ğĞŞ¸Ä
+		mp3FrameInfo->paddingBit = 0;//note:Ò°»ğĞŞ¸Ä
 	} else {
 		mp3FrameInfo->bitrate = mp3DecInfo->bitrate;
 		mp3FrameInfo->nChans = mp3DecInfo->nChans;
@@ -202,7 +202,7 @@ void MP3GetLastFrameInfo(HMP3Decoder hMP3Decoder, MP3FrameInfo *mp3FrameInfo)
 		mp3FrameInfo->outputSamps = mp3DecInfo->nChans * (int)samplesPerFrameTab[mp3DecInfo->version][mp3DecInfo->layer - 1];
 		mp3FrameInfo->layer = mp3DecInfo->layer;
 		mp3FrameInfo->version = mp3DecInfo->version;
-		mp3FrameInfo->paddingBit = mp3DecInfo->paddingBit;//note:±ü»ğĞŞ¸Ä
+		mp3FrameInfo->paddingBit = mp3DecInfo->paddingBit;//note:Ò°»ğĞŞ¸Ä
 
 	}
 }

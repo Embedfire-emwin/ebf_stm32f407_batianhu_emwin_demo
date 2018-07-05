@@ -257,7 +257,7 @@ int UnpackFrameHeader(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 	mp3DecInfo->nGranSamps = ((int)samplesPerFrameTab[fh->ver][fh->layer - 1]) / mp3DecInfo->nGrans;
 	mp3DecInfo->layer = fh->layer;
 	mp3DecInfo->version = fh->ver;
-	mp3DecInfo->paddingBit = fh->paddingBit;//note:±ü»ðÐÞ¸Ä
+	mp3DecInfo->paddingBit = fh->paddingBit;//note:Ò°»ðÐÞ¸Ä
 	/* get bitrate and nSlots from table, unless brIdx == 0 (free mode) in which case caller must figure it out himself
 	 * question - do we want to overwrite mp3DecInfo->bitrate with 0 each time if it's free mode, and
 	 *  copy the pre-calculated actual free bitrate into it in mp3dec.c (according to the spec, 

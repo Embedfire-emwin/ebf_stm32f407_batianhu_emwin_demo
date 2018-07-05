@@ -119,7 +119,7 @@ typedef struct _MP3FrameInfo {
 	int outputSamps;		//PCM数据数
 	int layer;					//层级
 	int version;				//版本
-	unsigned char paddingBit; //占位状态 //note:秉火修改
+	unsigned char paddingBit; //占位状态 //note:野火修改
 } MP3FrameInfo;
 
 /* public API */
