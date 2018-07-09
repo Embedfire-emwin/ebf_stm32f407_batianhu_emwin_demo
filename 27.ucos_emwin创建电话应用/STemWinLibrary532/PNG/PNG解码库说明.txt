@@ -11,4 +11,4 @@ PNG解码库说明
 
 -PNG解码库下载地址： www.segger.com/link/emwin_png.zip
 
---秉火科技
+--野火科技
