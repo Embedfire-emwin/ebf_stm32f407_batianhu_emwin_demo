@@ -54,7 +54,7 @@ tmp/
 JLink*.*
 
 # Output directories
-Output
+#Output
 Lst
 Obj
 
