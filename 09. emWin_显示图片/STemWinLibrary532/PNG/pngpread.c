@@ -294,6 +294,21 @@ png_push_read_chunk(png_structp png_ptr, png_infop info_ptr)
          if (png_ptr->mode & PNG_AFTER_IDAT)
             png_error(png_ptr, "Too many IDAT's found");
       }
+      
+         else
+      {
+         png_alloc_size_t limit = PNG_SIZE_MAX;
+      # ifdef PNG_SET_USER_LIMITS_SUPPORTED
+         if (png_ptr->user_chunk_malloc_max > 0 &&
+            png_ptr->user_chunk_malloc_max < limit)
+            limit = png_ptr->user_chunk_malloc_max;
+      # elif PNG_USER_CHUNK_MALLOC_MAX > 0
+         if (PNG_USER_CHUNK_MALLOC_MAX < limit)
+            limit = PNG_USER_CHUNK_MALLOC_MAX;
+      # endif
+         if (png_ptr->push_length > limit)
+            png_chunk_error(png_ptr, "chunk data is too large");
+      }
 
       png_ptr->idat_size = png_ptr->push_length;
       png_ptr->mode |= PNG_HAVE_IDAT;
