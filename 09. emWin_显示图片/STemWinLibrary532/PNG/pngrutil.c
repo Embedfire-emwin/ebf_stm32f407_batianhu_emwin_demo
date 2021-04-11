@@ -88,6 +88,52 @@ png_get_uint_16(png_bytep buf)
 }
 #endif /* PNG_READ_BIG_ENDIAN_SUPPORTED */
 
+png_uint_32 /* PRIVATE */
+png_read_chunk_header(png_structrp png_ptr)
+{
+   png_byte buf[8];
+   png_uint_32 length;
+#ifdef PNG_IO_STATE_SUPPORTED
+   png_ptr->io_state = PNG_IO_READING | PNG_IO_CHUNK_HDR;
+#endif
+   /* Read the length and the chunk name.
+    * This must be performed in a single I/O call.
+    */
+   png_read_data(png_ptr, buf, 8);
+   length = png_get_uint_31(png_ptr, buf);
+   /* Put the chunk name into png_ptr->chunk_name. */
+   png_ptr->chunk_name = PNG_CHUNK_FROM_STRING(buf+4);
+   png_debug2(0, "Reading %lx chunk, length = %lu",
+       (unsigned long)png_ptr->chunk_name, (unsigned long)length);
+   /* Reset the crc and run it over the chunk name. */
+   png_reset_crc(png_ptr);
+   png_calculate_crc(png_ptr, buf + 4, 4);
+   /* Check to see if chunk name is valid. */
+   png_check_chunk_name(png_ptr, png_ptr->chunk_name);
+
+   /* Check for too-large chunk length */
+   if (png_ptr->chunk_name != png_IDAT)
+   {
+      png_alloc_size_t limit = PNG_SIZE_MAX;
+# ifdef PNG_SET_USER_LIMITS_SUPPORTED
+      if (png_ptr->user_chunk_malloc_max > 0 &&
+          png_ptr->user_chunk_malloc_max < limit)
+         limit = png_ptr->user_chunk_malloc_max;
+# elif PNG_USER_CHUNK_MALLOC_MAX > 0
+      if (PNG_USER_CHUNK_MALLOC_MAX < limit)
+         limit = PNG_USER_CHUNK_MALLOC_MAX;
+# endif
+      if (length > limit)
+         png_chunk_error(png_ptr, "chunk data is too large");
+   }
+
+#ifdef PNG_IO_STATE_SUPPORTED
+   png_ptr->io_state = PNG_IO_READING | PNG_IO_CHUNK_DATA;
+#endif
+   return length;
+}
+
+
 /* Read data, and (optionally) run it through the CRC. */
 void /* PRIVATE */
 png_crc_read(png_structp png_ptr, png_bytep buf, png_size_t length)
